@@ -1,0 +1,29 @@
+# API Keys and Credentials
+.env
+credentials.json
+token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+
+# Runtime Data
+logs/
+summaries/
+context/
+state.json
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Slack Posted Markers
+*.slack_posted

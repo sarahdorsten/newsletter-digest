@@ -1,0 +1,13 @@
+# Weekly agent settings
+max_items: 20
+
+# Gmail query for newsletters to scan
+# Customize this to match the newsletters YOU want to track
+news_query: >
+  (category:updates OR category:promotions OR category:primary)
+  (
+    from:*@substack.com
+    OR from:*@every.to
+    OR subject:(AI OR newsletter OR weekly)
+  )
+  -subject:("confirm your subscription" OR "trial expiring" OR "billing" OR "receipt")

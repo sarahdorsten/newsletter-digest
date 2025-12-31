@@ -1,0 +1,7 @@
+anthropic==0.72.0
+google-api-python-client==2.111.0
+google-auth-oauthlib==1.2.0
+html2text==2025.4.15
+python-dotenv==1.0.0
+PyYAML==6.0.2
+slack-sdk==3.26.1
