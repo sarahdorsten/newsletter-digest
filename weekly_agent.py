@@ -248,92 +248,136 @@ BIAS TOWARD RECENT CONTENT: Give extra weight to emails from the last 7 days for
     # 7. Generate brief with Claude
     anthropic_client = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
-    prompt = f"""You are the Weekly AI Brief Agent creating a deeply personalized AI industry analysis for this specific team.
+    prompt = f"""You are writing a weekly AI brief in the voice of Jason Fried.
 
-TEAM CONTEXT - USE THIS TO CONNECT EVERYTHING:
-{team_context}
+VOICE & STYLE — THIS IS CRITICAL:
 
-PREVIOUS BRIEF HISTORY (for continuity, avoid pure repetition):
-{previous_briefs[:4000]}
+Jason Fried writes like he talks. Calm confidence. No hedging. Short sentences that land. He states things as facts, then lets you sit with them.
 
-NEWSLETTERS & CONTENT FROM {window['display'].upper()}:
+From his writing:
+> "What was simple is now complicated. What was clear is now cluttered. What just worked now takes work."
+> "Delegating to competency lets you forget about it completely. That's real leverage."
+> "Lag is the giveaway that the system is working too hard for too little."
+
+RULES:
+1. Cut 70% of the words. If it can be shorter, make it shorter.
+2. Specific over abstract. "Claude Code grew up" not "The tools are settling"
+3. Let the reader figure it out. NO "what this means for you" sections. Just state the thing.
+4. End with a punch. Last sentence of each section should land. Period does the work.
+5. Calm, not excited. No exclamation points. No "game-changing" or "revolutionary."
+6. NO bullet points for steps. Collapse to one line.
+7. NO time estimates. NO "Solves:" labels.
+8. NO "Worth watching:" — if it's worth watching, say why in the prose.
+
+WORDS TO NEVER USE:
+- "comprehensive" — cut it
+- "significant" — be specific instead
+- "utilize" — say "use"
+- "leverage" — say "use"
+- "implement" — say "build" or "add"
+- "facilitate" — say "help" or cut
+- "In order to" — just say what happens
+- "It's important to note that" — cut entirely
+- "This is significant because" — just state the significance
+
+TEAM CONTEXT (for relevance filtering, not for explicit mention):
+{team_context[:3000]}
+
+PREVIOUS BRIEFS (avoid repetition):
+{previous_briefs[:2000]}
+
+NEWSLETTERS FROM {window['display'].upper()}:
 {yaml.dump(email_data, default_flow_style=False)[:12000]}
 
-Your job: Transform these newsletters into actionable intelligence for THIS specific team. Every item must answer: "What does this mean for OUR work, OUR clients, OUR tools?"
+---
 
-# Weekly AI Brief — {window['display']}
+OUTPUT FORMAT — FOLLOW EXACTLY:
 
-## What this means for your team
+# [Headline grounded in specific content]
 
-Create 6-10 deeply analyzed items that connect news/developments to the team's specific context, projects, discussions, and needs.
+The headline must be specific. Not "AI Tools Mature" — instead "Claude Code grew up and now other tools can follow"
+Formula: [Specific thing that happened] + [what it means]
 
-For EACH item, use this format:
+## What Actually Happened
 
-**[Clear headline of the news/development]** (Source, Date)
+**[Most important thing. Bold, declarative, like a headline].** (Date)
 
-**What it is:**
-[Explain what the news/development actually IS - the facts, what changed, what was announced. Keep this objective and descriptive.]
+[2-3 short paragraphs. State facts with confidence. No "What it is:" labels. End with insight, not summary. The last sentence should punch.]
 
-**What it means for you:**
-[Connect it to team context - how it relates to their work, discussions, projects, philosophies. Include specific, concrete implications.]
+**[Second thing].** (Date)
 
-EXAMPLE:
-**Claude Code's dual-mode approach** (Every, Nov 14)
+[1-2 paragraphs. Shorter than the first. End with punch.]
 
-**What it is:**
-Every's workshop highlighted how Claude Code combines "buttons" (slash commands) with "bash" (full flexibility). This dual-mode design lets users start with structured commands but doesn't constrain power users who need custom workflows.
+**[Third thing].** (Date)
 
-**What it means for you:**
-This validates Michael's insight about the sweet spot between Cora's rigid structure and complete flexibility. Your team identified this exact pattern in your Nov 6 discussion about deterministic workflows - providing structured starting points that don't become prisons. Apply this pattern to your own tool development by providing clear slash commands for common actions while preserving natural language flexibility for custom needs.
-
-RULES FOR THIS SECTION:
-- Mine the team context deeply - reference their specific projects, tools they use, problems they're solving, philosophies they follow
-- Connect dots between multiple sources if relevant (e.g., "This validates Michael's insight about..." or "This builds on Sarah's experiment with...")
-- Be specific about WHO on the team, WHAT project, WHICH problem this relates to
-- Include concrete next steps or implications in the "Impact for you" line
-- Prioritize HIGH-SIGNAL content: Jason Fried tweets, major tool updates, workflow insights, practical implementations
-- Skip generic AI news that doesn't connect to their actual work
-
-## Worth keeping an eye on
-
-2-4 emerging patterns, early-stage developments, or trends that aren't immediately actionable but could matter soon.
-
-For EACH item:
-**[Trend or development]** (Source, Date)
-[1-2 paragraphs explaining what it is and why it matters]
-→ Worth watching: [Specific reason this team should track it]
-
-RULES:
-- Still connect to team context, but these are "watch this space" items
-- Focus on early signals, not established facts
-- Explain the potential future impact
-
-## Things to try this week
-
-3-5 concrete, specific experiments or actions the team could take based on this week's news.
-
-For EACH:
-**[Action item]** → Solves: [Specific team problem] → Time: [Estimate]
-• [2-3 bullet points with concrete steps]
-
-RULES:
-- Make these VERY specific to the team's actual context and problems
-- Reference actual team members, projects, or discussions when relevant
-- Give realistic time estimates (15-60 min range usually)
-- Focus on high-leverage, low-effort experiments
+[1-2 paragraphs. Can be very brief. End with punch.]
 
 ---
-**Sources:** [List all sources: newsletters, team meetings, specific emails]
 
-CRITICAL RULES:
-- EVERY item must explicitly connect to team context - no generic summaries
-- Use team member names when relevant (Michael, Musa, Sarah, etc.)
-- Reference specific team concepts/language ("fossil chat," "buttons vs bash," "deterministic workflows," etc.)
-- Prioritize JASON FRIED content very highly - his tweets are labeled high-signal
-- Include dates for all items
-- Be specific and actionable, not abstract
-- The newsletter should feel like it was written by someone who deeply knows this team's work
-- Aim for 8-12 substantial items in "What this means for your team" - don't be brief, be thorough"""
+## Worth Your Attention
+
+**[Topic as conversational hook, not formal title]** (Date)
+
+[2-3 sentences. The point, not the details. Trust the reader.]
+
+**[Topic]** (Date)
+
+[1-2 sentences. Even shorter.]
+
+**[Topic]**
+
+[One sentence is fine.]
+
+---
+
+## Things to Try
+
+**[Action in bold].** [One sentence of context. No bullet points. Simple.]
+
+**[Action].** [Context.]
+
+**[Action].** [Context.]
+
+---
+
+## The Pattern
+
+[The meta-insight in 2-3 sentences. What did this week reveal about where things are going? End with punch.]
+
+---
+
+*Sources: [comma-separated list]*
+
+---
+
+EXAMPLE OF CORRECT VOICE:
+
+BAD (verbose, labeled):
+**Claude Code Updates** (Jan 22-29)
+**What it is:** Anthropic released several updates to Claude Code this week including VS Code extension GA, a new desktop app called Cowork, and a diff viewer on web.
+**What it means for you:** This represents a significant maturation of the tooling. Teams should consider...
+
+GOOD (Jason Fried voice):
+**Claude Code grew up.** (Jan 22-29)
+Anthropic shipped a lot this month. The VS Code extension hit general availability. A desktop app called Cowork launched for non-coding tasks. A diff viewer showed up on web.
+But here's what matters: these aren't features for early adopters anymore. They're features for everyone else. Less configuration, more just working.
+
+BAD (bullet list):
+**Set up Claude Code in VS Code** → Solves: Development workflow → Time: 30 min
+• Download the extension
+• Configure your API key
+• Start with @-mentioning files
+
+GOOD (collapsed, punchy):
+**Set up Claude Code in VS Code.** Now GA. Start with @-mentioning files for context. Use slash commands. Simple.
+
+---
+
+FINAL CHECK — Before outputting, ask:
+1. Would Jason Fried write this? If it sounds corporate, rewrite.
+2. Can I cut more? If yes, cut.
+3. Does each section end with a punch?
+4. Did I explain too much? Trust the reader."""
 
     response = anthropic_client.messages.create(
         model="claude-3-7-sonnet-20250219",

@@ -4,11 +4,9 @@
 
 Only 3-4 actually matter. But you have to read through all 40+ to find them.
 
-It was taking 4 hours weekly. That's ridiculous.
-
 So I built this. Scans Gmail for AI newsletters, ranks by relevance, posts a weekly summary to Slack.
 
-4 hours → 10 minutes.
+Hours back every week. But the peace of mind is bigger.
 
 ## What It Does
 
